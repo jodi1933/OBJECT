@@ -1,0 +1,98 @@
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+  #include <avr/power.h>
+#endif
+#define PIN            8
+
+#define NUMPIXELS      5
+int count = 0;
+int pin1 = 13;
+int pin2 = 12;
+bool p1 = false;
+bool p2 = false;
+
+
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS,PIN,NEO_RGB +NEO_KHZ400);
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  pinMode( pin1, INPUT);
+  pinMode( pin2, INPUT); 
+  strip.begin();
+  strip.clear();
+  strip.show();
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  Serial.print("Pin 1: ");
+  Serial.print(digitalRead(pin1));
+  Serial.print("Pin 2: ");
+  Serial.println(digitalRead(pin2));
+  
+//  if(digitalRead(pin2)==HIGH&&digitalRead(pin1)==LOW)
+//  {
+//    count++;
+//  }
+  int i = 0;  
+      while(i<1&&count % 2==0)
+      {
+        if(digitalRead(pin2)==HIGH&&digitalRead(pin1)==HIGH)
+        {
+          count++;
+        }
+        strip.setPixelColor(0,0,255,0);
+        strip.setPixelColor(1,0,0,255);
+        strip.setPixelColor(2,255,0,0);
+        strip.setPixelColor(3,0,255,0);
+        strip.setPixelColor(4,0,0,255);
+        strip.show();
+        delay(500);
+        strip.setPixelColor(0,0,0,255);
+        strip.setPixelColor(1,255,0,0);
+        strip.setPixelColor(2,0,255,0);
+        strip.setPixelColor(3,0,0,255);
+        strip.setPixelColor(4,255,0,0);
+        strip.show();
+        delay(500);
+        strip.setPixelColor(0,255,0,0);
+        strip.setPixelColor(1,0,255,0);
+        strip.setPixelColor(2,0,0,255);
+        strip.setPixelColor(3,255,0,0);
+        strip.setPixelColor(4,0,255,0);
+        strip.show();
+        delay(500);
+        break;
+      }
+  
+    
+    while(i<1&&count %2!=0)
+    {
+      if(digitalRead(pin2)==HIGH&&digitalRead(pin1)==LOW)
+      {
+        count++;
+      }
+      strip.setPixelColor(0,0,0,255);
+      strip.setPixelColor(1,255,0,0);
+      strip.setPixelColor(2,255,0,0);
+      strip.setPixelColor(3,255,0,0);
+      strip.setPixelColor(4,0,0,255);
+      strip.show();
+      delay(500);
+      strip.setPixelColor(0,255,0,0);
+      strip.setPixelColor(1,0,0,255);
+      strip.setPixelColor(2,255,0,0);
+      strip.setPixelColor(3,0,0,255);
+      strip.setPixelColor(4,255,0,0);
+      strip.show();
+      delay(500);
+      strip.setPixelColor(0,255,0,0);
+      strip.setPixelColor(1,255,0,0);
+      strip.setPixelColor(2,0,0,255);
+      strip.setPixelColor(3,255,0,0);
+      strip.setPixelColor(4,255,0,0);
+      strip.show();
+      delay(500);
+      break;
+    }
+}
