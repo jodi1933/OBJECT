@@ -1,0 +1,126 @@
+#include <Servo.h>
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+  #include <avr/power.h>
+  #endif
+#define PIN            8
+
+#define NUMPIXELS      5
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS,PIN,NEO_RGB +NEO_KHZ400);
+
+Servo s;
+
+long duration, cm,i,j,k;
+int cx,cy;
+long mm;
+int APin = A2;
+int APin2 = A5;
+int AO1 = A4;
+int AO2 = A1;
+int val = 0;
+int val2 = 0;
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(9,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(11,OUTPUT);
+  pinMode(10,INPUT);
+  //pinMode(2, INPUT);
+  //digitalWrite(2, HIGH);
+  //Serial.begin(115200);
+  s.attach(13);
+  strip.begin();
+  strip.clear();
+  strip.show();
+}
+
+void loop() {
+  digitalWrite(11, LOW);
+  delayMicroseconds(5);
+  digitalWrite(11, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(11, LOW);
+  // put your main code here, to run repeatedly:
+  k = analogRead(A0);
+  pinMode(10, INPUT);
+  duration = pulseIn(10, HIGH);
+
+  cm = (duration/2) / 29.1;
+  
+  val = analogRead(APin);
+  val2 = analogRead(APin2);
+//  cx = analogRead(A4);
+//  cy = analogRead(A3);
+  
+  Serial.println(duration);
+  //Serial.println(val2/4-);
+  j=map(k,0,1024,0,255);
+  if(cm<=10){
+    i = map(cm,10,0,0,255);
+    s.write(mm);
+    delay(15);
+    }
+    else
+    i=0;
+    
+  analogWrite(9,map(val2,3,1020,0,255));
+  if(val<=1023&&val>818)
+  {
+    strip.setPixelColor(1,j,i,255);
+    strip.setPixelColor(2,j,i,255);
+    strip.setPixelColor(3,j,i,255);
+    strip.setPixelColor(4,j,i,255);
+    strip.setPixelColor(0,j,i,255);
+    strip.show();
+  }
+  if(val<=818&&val>613)
+  {
+    strip.setPixelColor(1,j,i,255);
+    strip.setPixelColor(2,j,i,255);
+    strip.setPixelColor(3,j,i,255);
+    strip.setPixelColor(4,0,0,0);
+    strip.setPixelColor(0,j,i,255);
+        strip.show();
+
+  }
+  if(val<=613&&val>409)
+  {
+    strip.setPixelColor(1,j,i,255);
+    strip.setPixelColor(2,j,i,255);
+    strip.setPixelColor(3,0,0,0);
+    strip.setPixelColor(4,0,0,0);
+    strip.setPixelColor(0,j,i,255);
+        strip.show();
+
+  }
+  if(val<=409&&val>204)
+  {
+    strip.setPixelColor(1,j,i,255);
+    strip.setPixelColor(2,0,0,0);
+    strip.setPixelColor(3,0,0,0);
+    strip.setPixelColor(4,0,0,0);
+    strip.setPixelColor(0,j,i,255);
+        strip.show();
+
+  }
+  if(val<=204&&val>=30)
+  {
+    strip.setPixelColor(1,0,0,0);
+    strip.setPixelColor(2,0,0,0);
+    strip.setPixelColor(3,0,0,0);
+    strip.setPixelColor(4,0,0,0);
+    strip.setPixelColor(0,j,i,255);
+        strip.show();
+
+  }
+  if(val<=30)
+  {
+    strip.setPixelColor(1,0,0,0);
+    strip.setPixelColor(2,0,0,0);
+    strip.setPixelColor(3,0,0,0);
+    strip.setPixelColor(4,0,0,0);
+    strip.setPixelColor(0,0,0,0);
+        strip.show();
+
+  }
+}
